@@ -1,78 +1,138 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page session="true"%>
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="EN">
 <head>
-<title>Login Page</title>
-<style>
-.error {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #a94442;
-	background-color: #f2dede;
-	border-color: #ebccd1;
-}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinch Wallet</title>
 
-.msg {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #31708f;
-	background-color: #d9edf7;
-	border-color: #bce8f1;
-}
+<!-- Bootstrap CSS -->
 
-#login-box {
-	width: 300px;
-	padding: 20px;
-	margin: 100px auto;
-	background: #fff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border: 1px solid #000;
-}
-</style>
+<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
+<!-- start custom css -->
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/css.css'/>">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 <body onload='document.loginForm.username.focus();'>
 
-	<h1>Spring Security Custom Login Form (XML)</h1>
+<div class="main1">
+	<div id="main">
 
-	<div id="login-box">
+	<!-- start header -->
+	<header>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="logo"><img src="<c:url value="/resources/images/logo.png"/>"/>	</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<h3>CinchWallet Point of Sale</h3>
+				</div>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</header>
+	<!-- end header -->
 
-		<h3>Login with Username and Password</h3>
+	<!-- start heading -->
+	<div class="heading">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h2>Cinch Wallet Terminal Provisioning</h2>
+				</div>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</div>
+	<!-- end heading -->
 
-		<c:if test="${not empty error}">
-			<div class="error">${error}</div>
-		</c:if>
-		<c:if test="${not empty msg}">
-			<div class="msg">${msg}</div>
-		</c:if>
+	<div class="box">
+		<div class="box-white"></div>
+	</div>
 
-		<form name='loginForm'
+	<!-- start main content -->
+	<div class="main-content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<form name='loginForm'
 			action="<c:url value='/j_spring_security_check' />" method='POST'>
 
-			<table>
-				<tr>
-					<td>User:</td>
-					<td><input type='text' name='username'></td>
-				</tr>
-				<tr>
-					<td>Password:</td>
-					<td><input type='password' name='password' /></td>
-				</tr>
-				<tr>
-					<td colspan='2'><input name="submit" type="submit"
-						value="submit" /></td>
-				</tr>
-			</table>
+					<div class="login-bg">
+						<div class="form-group">
+							<input type="text" value="" name="username" class="form-control" placeholder="Username">
+							<div class="clr"></div>
+						</div>
 
+						<div class="form-group">
+							<input type="password" value="" name="password" class="form-control" placeholder="Password">
+							<div class="clr"></div>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" value="submit" class="btn btn-info btn-block login-btn">Continue</button>
+							<div class="clr"></div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<p class="forgotText"><a href="#">Forgot Password ?</a></p>
+							</div>
+						</div>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 
-		</form>
+						<div class="clr"></div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="clr"></div>
 	</div>
+	<!-- end main content -->
+
+	<!-- start footer -->
+	<footer>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					&copy; Copyright <span>2015</span>. <b>cinchwallet.com</b>, All Rights Reserved.
+				</div>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</footer>
+	<!-- end footer -->
+		
+		<div class="clr"></div>
+	</div>
+	<div class="clr"></div>
+</div>
+
+
+
+<!-- jQuery -->
+<script src="<c:url value='/resources/js/jquery.js'/>"></script>
+<!-- Bootstrap JavaScript -->
+<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+
+<script>
+$(document).ready(function(){
+    var pageheight = jQuery( '.main-content' ).height();
+    if(pageheight<=500){
+       jQuery('footer').addClass('pc');
+       jQuery('#main').addClass('main-content1');
+    }
+});
+</script>
 
 </body>
 </html>
