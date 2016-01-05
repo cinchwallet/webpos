@@ -130,6 +130,14 @@ Date.prototype.format = function (mask, utc) {
 
 //DATE FUNCTION - END
 
+function replacer(key, value) {
+	  if ( value == '') {
+	    return undefined;
+	  }
+	  return value;
+	}
+
+
 // The root URL for the RESTful services
 var rootURL = "http://localhost:7001/cinchwallet/services/loyalty/api/v1.0";
 
@@ -151,6 +159,10 @@ This can be used to display switch health status at webpos
 
 */
 
+/*
+ * REGISTRATION FUNCTION - START
+ */
+
 $('#btnSave').click(function() {
 	$('#phoneDiv').hide();
 	$('#cardDiv').hide();
@@ -170,17 +182,9 @@ $('#btnSave').click(function() {
 		return false;
 	}
 	registerUser();
-	//test();
 	return false;
 
 });
-
-function test(){
-			$('#registration').hide();
-			$('#reg-success').show();
-			populateField('10100101');	
-
-}
 
 function registerUser() {
 
@@ -240,16 +244,85 @@ function formToRegJSON() {
 	return jsonString;
 }
 
+/*
+ * REGISTRATION FUNCTION - END
+ */
 
-function replacer(key, value) {
-  if ( value == '') {
-    return undefined;
-  }
-  return value;
+
+
+/*
+ * BALANCE INQUIRY FUNCTION - START
+ */
+$('#btnBI').click(function() {
+	if ($('#cardnumBI').val() == ''){
+		//show error message
+		alert('provide card number or phone number');
+		return false;
+	}
+	if($('#cardnumBI').val().length<10){
+		alert('please provide 10 digit phone number OR 16 digit card number');
+		return false;
+	}
+	var phone="";
+	var cardNumber="";
+	if($('#cardnumBI').val().length==10){
+		phone = $('#cardnumBI').val()
+	} else if($('#cardnumBI').val().length==16){
+		cardNumber = $('#cardnumBI').val()
+	}else{
+		alert('please provide 10 digit phone number OR 16 digit card number');
+		return false;
+	}
+	checkBalance(phone, cardNumber);
+	return false;
+
+});
+
+function checkBalance(phone, cardNumber) {
+
+	$.ajax({
+		type: 'POST',
+		contentType: 'application/json',
+		url: rootURL + '/carddetail',
+        crossDomain: true,  
+		dataType: "json",
+		data: earnPointReq(phone, cardNumber),
+		success: function(data, textStatus, jqXHR){
+			alert(data.pointBalance);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert('addWine error: ' + textStatus);
+		}
+	});
 }
 
+function checkBalanceReq(phone, cardNumber) {
+	
+	//{"merchantID":"10000000001","terminalID":"20130603000","merchantTxnID":"201508101781","cardNumber":"4375674812346789",
+	//"txnDate":"2015-08-17T18:18:21.305+08:00", "txnAmount":20}
+
+	var now = new Date();
+	//alert(phone +' '+cardNumber);
+	var data= {
+		"merchantID": $('#mid').val(),
+		"merchantTxnID": now.format("txnDate"),
+		"cardNumber": cardNumber,
+		"phoneNumber": phone
+		};
+		
+	var jsonString = JSON.stringify(data, replacer);
+	//alert(jsonString);
+	return jsonString;
+}
+
+/*
+ * BALANCE INQUIRY FUNCTION - END
+ */
 
 
+/*
+ * EARN POINT FUNCTION - START
+ */
 
 $('#btnEarnPoint').click(function() {
 	if ($('#cardnum').val() == ''){
@@ -272,10 +345,10 @@ $('#btnEarnPoint').click(function() {
 		return false;
 	}
 	earnPoint(phone, cardNumber);
-	//test();
 	return false;
 
 });
+
 
 function earnPoint(phone, cardNumber) {
 
@@ -302,7 +375,7 @@ function earnPointReq(phone, cardNumber) {
 	//"txnDate":"2015-08-17T18:18:21.305+08:00", "txnAmount":20}
 
 	var now = new Date();
-	alert(phone +' '+cardNumber);
+	//alert(phone +' '+cardNumber);
 	var data= {
 		"merchantID": $('#mid').val(),
 		"merchantTxnID": now.format("txnDate"),
@@ -313,7 +386,24 @@ function earnPointReq(phone, cardNumber) {
 		};
 		
 	var jsonString = JSON.stringify(data, replacer);
-	alert(jsonString);
+	//alert(jsonString);
 	return jsonString;
 }
+/*
+ * EARN POINT FUNCTION - END
+ */
+
+
+/*
+ * RESET PASSWORD FUNCTION - START
+ */
+
+$('#btnResetSubmit').click(function() {
+	$('#btnResetSubmit').html("Processing....")
+	$(this).attr("disabled","disabled");
+	return true;
+});
+/*
+ * RESET PASSWORD FUNCTION - END
+ */
 

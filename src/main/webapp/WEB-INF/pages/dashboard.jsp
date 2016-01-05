@@ -360,10 +360,7 @@ $(document).ready(function(){
                       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 fLeft">
                         <div class="form-group">
                           <label>Please enter card number in below box, or swipe the card.</label>
-                          <input type="text" name="cardnum" id="cardnum" placeholder="Card Number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                          <input type="text" name="amount" id="ammount" placeholder="Amount" class="form-control" required>
+                          <input type="text" name="cardnum" id="cardnumBI" placeholder="Card Number/Phone Number" class="form-control" required>
                         </div>
                         <div class="row">
                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -385,7 +382,7 @@ $(document).ready(function(){
                           </div>
                         </div>
                         <div class="form-group">
-                          <button type="submit" value="submit" class="btn btn-info btn-block login-btn buttonsetting">Start Txn</button>
+                          <button type="submit" value="submit" id="btnBI" class="btn btn-info btn-block login-btn buttonsetting">Submit</button>
                         </div>
                       </div>
                     </div>

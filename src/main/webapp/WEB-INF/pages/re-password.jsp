@@ -19,7 +19,7 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.resetForm.username.focus();'>
 
 <div class="main1">
 	<div id="main">
@@ -62,30 +62,36 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<form name='loginForm'
-			action="<c:url value='/j_spring_security_check' />" method='POST'>
+					<form name='resetForm' action="<c:url value='/rstpass' />" method='POST'>
+
+					<c:if test="${not empty error}">
+						<div id="reset-pass-success" align="center" >
+							<h2>${error}</h2>
+						</div>
+					</c:if>
+					<c:if test="${not empty msg}">
+						<div id="reset-pass-error" align="center" >
+							<h2>${msg}</h2>
+						</div>
+					</c:if>
+
 
 					<div class="login-bg">
 						<div class="form-group">
-							<input type="text" value="" name="username" class="form-control" placeholder="Username">
+							<input type="text" value="" name="username" id="username" class="form-control" placeholder="Username">
 							<div class="clr"></div>
 						</div>
 
 						<div class="form-group">
-							<input type="password" value="" name="password" class="form-control" placeholder="Password">
+							<button type="submit" value="submit" id="btnResetSubmit" class="btn btn-info btn-block login-btn">Submit</button>
 							<div class="clr"></div>
 						</div>
-
-						<div class="form-group">
-							<button type="submit" value="submit" class="btn btn-info btn-block login-btn">Continue</button>
-							<div class="clr"></div>
-						</div>
-
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<p class="forgotText"><a href="<c:url value='/rstpass' />">Forgot Password ?</a></p>
+								<p class="forgotText"><a href="<c:url value='/login' />">Login</a></p>
 							</div>
 						</div>
+
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 
@@ -123,6 +129,7 @@
 <script src="<c:url value='/resources/js/jquery.js'/>"></script>
 <!-- Bootstrap JavaScript -->
 <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/resources/js/main.js'/>"></script>
 
 <script>
 $(document).ready(function(){
