@@ -42,18 +42,38 @@ $(document).ready(function(){
         }
       
     });
+
+	$("#cardNumber").keydown(function(e){      
+      var numval=$("#cardNumber").val();      
+      if (!((e.keyCode >= 48 && e.keyCode <= 57) || 
+        (e.keyCode >= 96 && e.keyCode <= 105) || 
+        (e.keyCode >= 37 && e.keyCode <= 40) || 
+        (e.keyCode==8) || (e.keyCode==9) || (e.keyCode==46) || 
+        (e.keyCode==17) || (e.keyCode == 65 && e.ctrlKey === true) || ((e.which == 67 || e.which == 99) && e.ctrlKey === true) || 
+        ((e.which == 120 || e.which == 88) && e.ctrlKey === true))) {  
+		 
+			 var strng=document.getElementById("cardNumber").value;
+				document.getElementById("cardNumber").value=strng.substring(0,strng.length-1);  
+          		return false;          
+        }else{ var value = $(this).val();       
+          
+        }
+      
+    });
+
+
 	
     /*card number */
-    $("#Card_Number").keydown(function(e){      
-      var numval=$("#Card_Number").val();      
+    $("#cardnumBI").keydown(function(e){      
+      var numval=$("#cardnumBI").val();      
       if (!((e.keyCode >= 48 && e.keyCode <= 57) || 
         (e.keyCode >= 96 && e.keyCode <= 105) || 
         (e.keyCode >= 37 && e.keyCode <= 40) || 
         (e.keyCode==8) || (e.keyCode==9) || (e.keyCode==46) || 
         (e.keyCode==17) || (e.keyCode == 65 && e.ctrlKey === true) || ((e.which == 67 || e.which == 99) && e.ctrlKey === true) || 
         ((e.which == 120 || e.which == 88) && e.ctrlKey === true))) {    
-        var strng=document.getElementById("Card_Number").value;
-				document.getElementById("Card_Number").value=strng.substring(0,strng.length-1);  
+        var strng=document.getElementById("cardnumBI").value;
+				document.getElementById("cardnumBI").value=strng.substring(0,strng.length-1);  
           return false;          
         }else{ var value = $(this).val();       
           
@@ -64,16 +84,16 @@ $(document).ready(function(){
 	
 	
 	 /*cardnum */
-    $("#cardnum").keydown(function(e){      
-      var numval=$("#cardnum").val();      
+    $("#cardnumEP").keydown(function(e){      
+      var numval=$("#cardnumEP").val();      
       if (!((e.keyCode >= 48 && e.keyCode <= 57) || 
         (e.keyCode >= 96 && e.keyCode <= 105) || 
         (e.keyCode >= 37 && e.keyCode <= 40) || 
         (e.keyCode==8) || (e.keyCode==9) || (e.keyCode==46) || 
         (e.keyCode==17) || (e.keyCode == 65 && e.ctrlKey === true) || ((e.which == 67 || e.which == 99) && e.ctrlKey === true) || 
         ((e.which == 120 || e.which == 88) && e.ctrlKey === true))) {    
-        var strng=document.getElementById("Card_Number").value;
-				document.getElementById("Card_Number").value=strng.substring(0,strng.length-1);  
+        var strng=document.getElementById("cardnumEP").value;
+				document.getElementById("cardnumEP").value=strng.substring(0,strng.length-1);  
           return false;          
         }else{ var value = $(this).val();       
           
@@ -85,16 +105,16 @@ $(document).ready(function(){
 	
 	
 		 /*cardnum */
-    $("#ammount").keydown(function(e){      
-      var numval=$("#cardnum").val();      
+    $("#amount").keydown(function(e){      
+      var numval=$("#amount").val();      
       if (!((e.keyCode >= 48 && e.keyCode <= 57) || 
         (e.keyCode >= 96 && e.keyCode <= 105) || 
         (e.keyCode >= 37 && e.keyCode <= 40) || 
         (e.keyCode==8) || (e.keyCode==9) || (e.keyCode==46) || 
         (e.keyCode==17) || (e.keyCode == 65 && e.ctrlKey === true) || ((e.which == 67 || e.which == 99) && e.ctrlKey === true) || 
         ((e.which == 120 || e.which == 88) && e.ctrlKey === true))) {    
-        var strng=document.getElementById("Card_Number").value;
-				document.getElementById("Card_Number").value=strng.substring(0,strng.length-1);  
+        var strng=document.getElementById("amount").value;
+				document.getElementById("amount").value=strng.substring(0,strng.length-1);  
           return false;          
         }else{ var value = $(this).val();       
           
@@ -161,10 +181,10 @@ $(document).ready(function(){
                 <nav class="nav-sidebar">
                   <ul class="nav tabs">
                     <!-- <li class="active"><a href="#dashboard" data-toggle="tab">Dashboard</a></li> -->
-                    <li class=""><a href="#registration" data-toggle="tab">Registration</a></li>
-                    <li class=""><a href="#bal-inq" data-toggle="tab">Balance Inquiry</a></li>
-                    <li class=""><a href="#earn-points" data-toggle="tab">Earn Points</a></li>
-                    <li class=""><a href="#burn-points" data-toggle="tab">Burn Points</a></li>
+                    <li class=""><a href="#registration" title="registration" onclick="showform(this.title);" data-toggle="tab">Registration</a></li>
+                    <li class=""><a href="#bal-inq" title="bal-inq" onclick="showform(this.title);" data-toggle="tab">Balance Inquiry</a></li>
+                    <li class=""><a href="#earn-points" title="earn-points" onclick="showform(this.title);" data-toggle="tab">Earn Points</a></li>
+                    <li class=""><a href="#burn-points" title="burn-points" onclick="showform(this.title);" data-toggle="tab">Burn Points</a></li>
                   </ul>
                   	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">
@@ -172,6 +192,17 @@ $(document).ready(function(){
 			value="${_csrf.token}" />
 	</form>
 	<script>
+        function showform(div_val){
+		//hide all div
+			$('#registration').hide();
+            $('#reg-success').hide();
+            $('#bal-inq').hide();
+            $('#earn-points').hide();
+            $('#burn-points').hide();
+		//show one 			
+			$('#'+div_val).show();
+		}
+	
 		function formSubmit() {
 			document.getElementById("logoutForm").submit();
 		}
@@ -319,11 +350,15 @@ $(document).ready(function(){
                       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 fLeft">
                         <div class="form-group">
                           <label>Please enter card number in below box, or swipe the card.</label>
-                          <input type="text" name="cardnum" id="cardnum" placeholder="Card Number/Phone Number" class="form-control" required>
+                          <input type="text" name="cardnumEP" id="cardnumEP" placeholder="Card Number/Phone Number" class="form-control" required>
                         </div>
                         <div class="form-group">
-                          <input type="text" name="amount" id="ammount" placeholder="Amount" class="form-control" required>
+                          <input type="text" name="amount" id="amount" placeholder="Amount" class="form-control" required>
                         </div>
+                        <div class="form-group">
+                          	<input type="text" name="promoCode" id="promoCode" placeholder="Promo Code" class="form-control">
+                        </div>
+                        
                         <div class="row">
                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <ul class="calLi">
@@ -343,8 +378,10 @@ $(document).ready(function(){
                             </ul>
                           </div>
                         </div>
+                        
+                        
                         <div class="form-group">
-                          <button type="submit" value="submit" id="btnEarnPoint" class="btn btn-info btn-block login-btn buttonsetting">Start Txn</button>
+                          <button type="submit" value="submit" id="btnEarnPoint" class="btn btn-info btn-block login-btn buttonsetting">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -360,7 +397,7 @@ $(document).ready(function(){
                       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 fLeft">
                         <div class="form-group">
                           <label>Please enter card number in below box, or swipe the card.</label>
-                          <input type="text" name="cardnum" id="cardnumBI" placeholder="Card Number/Phone Number" class="form-control" required>
+                          <input type="text" name="cardnumBI" id="cardnumBI" placeholder="Card Number/Phone Number" class="form-control" required>
                         </div>
                         <div class="row">
                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

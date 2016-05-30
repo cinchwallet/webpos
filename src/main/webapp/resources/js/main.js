@@ -181,6 +181,8 @@ $('#btnSave').click(function() {
 		$('#cardDiv').show();
 		return false;
 	}
+	$('#btnSave').html("Processing....")
+	$(this).attr("disabled","disabled");
 	registerUser();
 	return false;
 
@@ -198,8 +200,7 @@ function registerUser() {
 		success: function(data, textStatus, jqXHR){
 			$('#registration').hide();
 			$('#reg-success').show();
-			populateField(data.respMsg);	
-			alert(data.respMsg);
+			populateField(data.card.membershipId);	
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			alert('addWine error: ' + textStatus);
@@ -325,32 +326,39 @@ function checkBalanceReq(phone, cardNumber) {
  */
 
 $('#btnEarnPoint').click(function() {
-	if ($('#cardnum').val() == ''){
+	if ($('#cardnumEP').val() == ''){
 		//show error message
 		alert('provide card number or phone number');
 		return false;
 	}
-	if($('#cardnum').val().length<10){
+	if($('#cardnumEP').val().length<10){
 		alert('please provide 10 digit phone number OR 16 digit card number');
 		return false;
 	}
 	var phone="";
 	var cardNumber="";
-	if($('#cardnum').val().length==10){
-		phone = $('#cardnum').val()
-	} else if($('#cardnum').val().length==16){
-		cardNumber = $('#cardnum').val()
+	var promoCode="";
+	
+	//populate promocode if provided
+	if($('#promoCode').val().length>0){
+		promoCode = $('#promoCode').val()
+	}
+	
+	if($('#cardnumEP').val().length==10){
+		phone = $('#cardnumEP').val()
+	} else if($('#cardnumEP').val().length==16){
+		cardNumber = $('#cardnumEP').val()
 	}else{
 		alert('please provide 10 digit phone number OR 16 digit card number');
 		return false;
 	}
-	earnPoint(phone, cardNumber);
+	earnPoint(phone, cardNumber, promoCode);
 	return false;
 
 });
 
 
-function earnPoint(phone, cardNumber) {
+function earnPoint(phone, cardNumber, promoCode) {
 
 	$.ajax({
 		type: 'POST',
@@ -358,7 +366,7 @@ function earnPoint(phone, cardNumber) {
 		url: rootURL + '/earnpoint',
         crossDomain: true,  
 		dataType: "json",
-		data: earnPointReq(phone, cardNumber),
+		data: earnPointReq(phone, cardNumber, promoCode),
 		success: function(data, textStatus, jqXHR){
 			alert(data.respMsg);
 		},
@@ -369,7 +377,7 @@ function earnPoint(phone, cardNumber) {
 	//formToRegJSON()
 }
 
-function earnPointReq(phone, cardNumber) {
+function earnPointReq(phone, cardNumber, promoCode) {
 	
 	//{"merchantID":"10000000001","terminalID":"20130603000","merchantTxnID":"201508101781","cardNumber":"4375674812346789",
 	//"txnDate":"2015-08-17T18:18:21.305+08:00", "txnAmount":20}
@@ -381,7 +389,8 @@ function earnPointReq(phone, cardNumber) {
 		"merchantTxnID": now.format("txnDate"),
 		"cardNumber": cardNumber,
 		"phoneNumber": phone,
-		"txnAmount": $('#ammount').val()
+		"promoCode": promoCode,
+		"txnAmount": $('#amount').val()
 		
 		};
 		

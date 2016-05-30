@@ -1,0 +1,5 @@
+Dear ${firstName} ${lastName}
+</br> 
+Sending Email Using Velocity Template from ${location} location.
+</br>
+Thanks

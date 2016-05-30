@@ -18,8 +18,18 @@
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+ <style>
+  .error-msg {
+  margin: .5em 0;
+  display: block;
+  color: #dd4b39;
+  line-height: 17px;
+  }
+  </style>
+
+  
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body>
 
 <div class="main1">
 	<div id="main">
@@ -68,6 +78,9 @@
 					<div class="login-bg">
 						<div class="form-group">
 							<input type="text" value="" name="username" class="form-control" placeholder="Username">
+							<c:if test="${not empty error}">
+								<span class="error-msg" >${error}</span>
+							</c:if>
 							<div class="clr"></div>
 						</div>
 

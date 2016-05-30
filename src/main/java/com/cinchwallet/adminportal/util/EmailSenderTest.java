@@ -1,5 +1,6 @@
 package com.cinchwallet.adminportal.util;
 
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -11,13 +12,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailSender {
+
+
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+
+public class EmailSenderTest {
 
 	static Session session;
 
 	static {
-		final String username = "YOUR_CW_EMAIL ID";
-		final String password = "YOUR PASSWORD";
+		final String username = "manojks2906@gmail.com";
+		final String password = "rahuls12";
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -51,16 +58,30 @@ public class EmailSender {
 					"<br>Cinchwallet Admin";
 			message.setContent(emailBody, "text/html");
 
+			
+			VelocityEngine ve = new VelocityEngine();
+	        ve.init();
+			Template template = ve.getTemplate("src/main/resources/email.vm");
+
+			  VelocityContext velocityContext = new VelocityContext();
+			  velocityContext.put("firstName", "Yashwant");
+			  velocityContext.put("lastName", "Chavan");
+			  velocityContext.put("location", "Pune");
+			  
+			  StringWriter stringWriter = new StringWriter();
+			  
+			  template.merge(velocityContext, stringWriter);
+			  
+			  //message.setText(stringWriter.toString());
+			  message.setContent(stringWriter.toString(), "text/html");
+			  
+			  
 			Transport.send(message);
 
 			System.out.println("Done");
 			status = true;
-		} catch (MessagingException e) {
-			
-		} catch (UnsupportedEncodingException e) {
-			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return status;
 	}
